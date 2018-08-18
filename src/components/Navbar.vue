@@ -7,7 +7,7 @@
     </div>
 
     <div class="navbar-menu">
-      <div v-if="" class="navbar-start">
+      <div v-if="currentlyLoggedIn" class="navbar-start">
         <div class="navbar-item">
           <a class="button is-text" href="#">Hello, Doctor!</a>
         </div>
@@ -37,7 +37,13 @@ export default {
       currentlyLoggedIn: false,
     };
   },
-  computed: {},
+  created() {
+    this.$store.subscribe((mutation, state) => {
+      if (mutation.type === 'currentlyLoggedIn') {
+        this.currentlyLoggedIn = this.$store.getters.checkIfLoggedIn;
+      }
+    });
+  },
   methods: {
     logout() {
       const url = 'https://vzhny-patients-api.herokuapp.com/api/auth/logout';

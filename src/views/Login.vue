@@ -10,7 +10,7 @@
           </header>
           <div class="card-content">
             <div class="content">
-              <form @submit.prevent="login">
+              <form @keyup.enter="login">
                 <div class="field">
                   <label class="label">Username</label>
                   <div class="control">
@@ -27,7 +27,7 @@
                 </div>
               </form>
             </div>
-            <p v-if="errorLoggingIn" id="error-text" class="help is-danger">There was an error trying to log in. Please try again later.</p>
+            <p v-if="errorLoggingIn" id="error-text" class="help is-danger has-text-centered">There was an error trying to log in. Please try again later.</p>
           </div>
           <footer class="card-footer">
             <a class="card-footer-item" @click="login">Submit</a>
@@ -101,6 +101,5 @@ export default {
 
 #error-text {
   font-size: 1rem;
-  text-align: center;
 }
 </style>

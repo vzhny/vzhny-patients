@@ -34,7 +34,7 @@
                 </div>
               </form>
             </div>
-            <p v-if="errorRegistering" id="error-text" class="help is-danger">There was an error trying to register. Please try again later.</p>
+            <p v-if="errorRegistering" id="error-text" class="help is-danger has-text-centered">There was an error trying to register. Please try again later.</p>
           </div>
           <footer class="card-footer">
             <a class="card-footer-item" @click="register">Submit</a>
@@ -117,6 +117,5 @@ export default {
 
 #error-text {
   font-size: 1rem;
-  text-align: center;
 }
 </style>

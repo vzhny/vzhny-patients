@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="register container">
     <div class="columns">
       <div class="column is-offset-one-quarter is-half">
         <div class="card">

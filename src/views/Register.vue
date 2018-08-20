@@ -13,22 +13,31 @@
               <form @submit.prevent="register">
                 <div class="field">
                   <label class="label">Full Name</label>
-                  <div class="control">
+                  <div class="control has-icons-left">
                     <input v-model="fullName" class="input" type="text">
+                    <span class="icon is-small is-left">
+                      <i class="fas fa-address-card"></i>
+                    </span>
                   </div>
                   <p v-if="fullNameInvalid" class="help is-danger">Please enter your full name.</p>
                 </div>
                 <div class="field">
                   <label class="label">Username</label>
-                  <div class="control">
+                  <div class="control has-icons-left">
                     <input v-model="username" class="input" type="text">
+                    <span class="icon is-small is-left">
+                      <i class="fas fa-user"></i>
+                    </span>
                   </div>
                   <p v-if="usernameInvalid" class="help is-danger">Please enter a username.</p>
                 </div>
                 <div class="field">
                   <label class="label">Password</label>
-                  <div class="control">
+                  <div class="control has-icons-left">
                     <input v-model="password" class="input" type="password">
+                    <span class="icon is-small is-left">
+                      <i class="fas fa-lock"></i>
+                    </span>
                   </div>
                   <p v-if="passwordInvalid" class="help is-danger">Please enter a password longer than 6 characters.</p>
                 </div>

@@ -13,15 +13,21 @@
               <form @keyup.enter="login">
                 <div class="field">
                   <label class="label">Username</label>
-                  <div class="control">
+                  <div class="control has-icons-left">
                     <input v-model="username" class="input" type="text">
+                    <span class="icon is-small is-left">
+                      <i class="fas fa-user"></i>
+                    </span>
                   </div>
                   <p v-if="usernameInvalid" class="help is-danger">Please enter a username.</p>
                 </div>
                 <div class="field">
                   <label class="label">Password</label>
-                  <div class="control">
+                  <div class="control has-icons-left">
                     <input v-model="password" class="input" type="password">
+                    <span class="icon is-small is-left">
+                      <i class="fas fa-lock"></i>
+                    </span>
                   </div>
                   <p v-if="passwordInvalid" class="help is-danger">Please enter a password.</p>
                 </div>

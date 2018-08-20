@@ -28,6 +28,6 @@ export default {
 }
 
 .container {
-  margin-top: 4rem;
+  margin-top: 2rem;
 }
 </style>

@@ -1,11 +1,14 @@
 <template>
-  <div class="dashboard container">
+  <div class="dashboard container is-fluid">
     <div class="columns">
-      <div class="column is-three-quarters">
-        <vzhny-patient-list />
+      <div class="column">
+        <vzhny-add-patient-card v-if="showAddPatientCard" />
       </div>
-      <div class="column is-onecheckIfLoggedIn-quarter">
-        <vzhny-patient-details />
+    </div>
+    <div class="columns">
+      <div class="column">
+        <vzhny-patient-list v-if="!feedback" />
+        <p v-else>{{ feedback }}</p>
       </div>
     </div>
   </div>
@@ -13,16 +16,51 @@
 
 <script>
 import PatientList from '@/components/PatientList';
-import PatientDetails from '@/components/PatientDetails';
+import AddPatientCard from '@/components/AddPatientCard';
+import axios from 'axios';
+import EventBus from '../eventbus.js';
 
 export default {
   name: 'Dashboard',
   components: {
     'vzhny-patient-list': PatientList,
-    'vzhny-patient-details': PatientDetails,
+    'vzhny-add-patient-card': AddPatientCard,
   },
   data() {
-    return {};
+    return {
+      feedback: null,
+      showAddPatientCard: false,
+    };
+  },
+  created() {
+    const url = 'https://vzhny-patients-api.herokuapp.com/api/patients';
+    const token = this.$store.getters.retrieveAuthToken;
+
+    if (token) {
+      axios
+        .get(url, {
+          headers: {
+            'x-auth-token': token,
+          },
+        })
+        .then(response => {
+          this.$store.commit('listOfPatients', { patients: response.data });
+        })
+        .catch(error => {
+          this.feedback = 'Error retrieving patients from the server. Please try again.';
+        });
+    } else {
+      this.feedback = 'Not currently logged in. Please log in to display your patients.';
+    }
+  },
+  mounted() {
+    EventBus.$on('add-new-patient', () => {
+      this.showAddPatientCard = true;
+    });
+
+    EventBus.$on('close-add-patient-card', () => {
+      this.showAddPatientCard = false;
+    });
   },
 };
 </script>

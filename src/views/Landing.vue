@@ -11,15 +11,15 @@
 
         <div class="columns">
           <div class="column is-one-third">
-            <h1>Features 1</h1>
+            <p class="heading has-text-centered">Features 1</p>
             <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ab laudantium molestiae iusto sit nam neque quod totam inventore aliquam vitae?</p>
           </div>
           <div class="column is-one-third">
-            <h1>Features 2</h1>
+            <p class="heading has-text-centered">Features 2</p>
             <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ab laudantium molestiae iusto sit nam neque quod totam inventore aliquam vitae?</p>
           </div>
           <div class="column is-one-third">
-            <h1>Features 3</h1>
+            <p class="heading has-text-centered">Features 3</p>
             <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ab laudantium molestiae iusto sit nam neque quod totam inventore aliquam vitae?</p>
           </div>
         </div>
@@ -42,6 +42,10 @@ section {
 
   .title {
     font-size: 5rem;
+  }
+
+  .heading {
+    font-size: 1.5rem;
   }
 }
 </style>

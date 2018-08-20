@@ -34,19 +34,16 @@ export default {
   },
   created() {
     const url = 'https://vzhny-patients-api.herokuapp.com/api/patients';
-    const token = this.$store.getters.retrieveAuthToken;
+    const userLoggedIn = this.$store.getters.checkIfLoggedIn;
 
-    if (token) {
+    if (userLoggedIn) {
       axios
-        .get(url, {
-          headers: {
-            'x-auth-token': token,
-          },
-        })
+        .get(url)
         .then(response => {
           this.$store.commit('listOfPatients', { patients: response.data });
         })
         .catch(error => {
+          console.log('Unsuccessful get:', error);
           this.feedback = 'Error retrieving patients from the server. Please try again.';
         });
     } else {

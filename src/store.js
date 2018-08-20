@@ -15,7 +15,7 @@ const mutations = {
   },
   listOfPatients(state, payload) {
     payload.patients.forEach(patient => {
-      state.patient.push(patient);
+      state.patients.push(patient);
     });
   },
   addPatient(state, payload) {

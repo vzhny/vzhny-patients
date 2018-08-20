@@ -16,7 +16,7 @@
                   <div class="control has-icons-left">
                     <input v-model="fullName" class="input" type="text">
                     <span class="icon is-small is-left">
-                      <i class="fas fa-address-card"></i>
+                      <i class="fas fa-address-card" />
                     </span>
                   </div>
                   <p v-if="fullNameInvalid" class="help is-danger">Please enter your full name.</p>
@@ -26,7 +26,7 @@
                   <div class="control has-icons-left">
                     <input v-model="username" class="input" type="text">
                     <span class="icon is-small is-left">
-                      <i class="fas fa-user"></i>
+                      <i class="fas fa-user" />
                     </span>
                   </div>
                   <p v-if="usernameInvalid" class="help is-danger">Please enter a username.</p>
@@ -36,7 +36,7 @@
                   <div class="control has-icons-left">
                     <input v-model="password" class="input" type="password">
                     <span class="icon is-small is-left">
-                      <i class="fas fa-lock"></i>
+                      <i class="fas fa-lock" />
                     </span>
                   </div>
                   <p v-if="passwordInvalid" class="help is-danger">Please enter a password longer than 6 characters.</p>
@@ -102,6 +102,7 @@ export default {
           .post(url, credentials)
           .then(response => {
             this.$store.commit('currentlyLoggedIn', { token: response.data.token });
+            axios.defaults.headers.common['x-auth-token'] = this.$store.getters.retrieveAuthToken;
             this.$router.push('/dashboard');
           })
           .catch(error => {

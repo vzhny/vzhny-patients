@@ -7,7 +7,7 @@
         </p>
         <a class="card-header-icon" @click="emitCloseAddPatientCard">
           <span class="icon">
-            <i class="fas fa-times"></i>
+            <i class="fas fa-times" />
           </span>
         </a>
       </header>
@@ -20,9 +20,9 @@
                   <div class="field">
                     <label class="label">Full Name</label>
                     <div class="control is-expanded">
-                      <input v-model="patient.fullName" class="input" type="text">
+                      <input v-model="patient.name" class="input" type="text">
                     </div>
-                    <p v-if="errors.fullNameInvalid" class="help is-danger">Please enter the patient's full name.</p>
+                    <p v-if="errors.nameInvalid" class="help is-danger">Please enter the patient's full name.</p>
                   </div>
                 </div>
                 <div class="column is-half">
@@ -59,7 +59,7 @@
                   <div class="field">
                     <label class="label">Reason(s) For Visit</label>
                     <div class="control is-expanded">
-                      <textarea v-model="patient.reason" class="textarea" rows="3"></textarea>
+                      <textarea v-model="patient.reason" class="textarea" rows="3" />
                     </div>
                   </div>
                 </div>
@@ -67,7 +67,7 @@
                   <div class="field">
                     <label class="label">Diagnosis</label>
                     <div class="control is-expanded">
-                      <textarea v-model="patient.diagnosis" class="textarea" rows="3"></textarea>
+                      <textarea v-model="patient.diagnosis" class="textarea" rows="3" />
                     </div>
                   </div>
                 </div>
@@ -77,7 +77,7 @@
                   <div class="field">
                     <label class="label">Notes</label>
                     <div class="control is-expanded">
-                      <textarea v-model="patient.notes" class="textarea" rows="4"></textarea>
+                      <textarea v-model="patient.notes" class="textarea" rows="4" />
                     </div>
                   </div>
                 </div>
@@ -109,7 +109,7 @@ export default {
   data() {
     return {
       patient: {
-        fullName: '',
+        name: '',
         address: '',
         phoneNumber: '',
         email: '',
@@ -118,7 +118,7 @@ export default {
         notes: '',
       },
       errors: {
-        fullNameInvalid: false,
+        nameInvalid: false,
         addressInvalid: false,
         phoneNumberInvalid: false,
         errorAddingPatient: false,
@@ -133,9 +133,9 @@ export default {
     addNewPatient() {
       // TODO - Fix getting a 400 reqest error on POST
       const url = 'https://vzhny-patients-api.herokuapp.com/api/patients';
-      const token = this.$store.getters.retrieveAuthToken;
+      const userLoggedIn = this.$store.getters.checkIfLoggedIn;
       const patient = {
-        name: this.patient.fullName,
+        name: this.patient.name,
         address: this.patient.address,
         phoneNumber: this.patient.phoneNumber,
         email: this.patient.email,
@@ -144,19 +144,17 @@ export default {
         notes: this.patient.notes,
       };
 
-      if (token) {
+      console.log('Current patient information:', patient);
+
+      if (userLoggedIn) {
         axios
-          .post(url, patient, {
-            headers: {
-              'x-auth-token': token,
-            },
-          })
+          .post(url, patient)
           .then(response => {
-            console.log(response);
+            console.log('Successful post:', response);
             this.$store.commit('addPatient', { patient: response.data });
           })
           .catch(error => {
-            console.log(error.message);
+            console.log('Unsuccessful post:', error);
             this.feedback = 'Error adding the patient to the server. Please try again.';
           });
       } else {

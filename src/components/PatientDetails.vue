@@ -1,6 +1,6 @@
 <template>
   <div class="patient-details card">
-    <div class="card-header">
+    <div v-if="patientClicked" class="card-header">
       <p class="card-header-title"></p>
     </div>
     <div class="card-content">
@@ -13,7 +13,9 @@
 export default {
   name: 'PatientDetails',
   data() {
-    return {};
+    return {
+      patientClicked: false,
+    };
   },
 };
 </script>

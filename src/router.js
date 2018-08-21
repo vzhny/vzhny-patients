@@ -21,7 +21,7 @@ const router = new Router({
       meta: {
         requiresAuth: false,
         isCurrentlyLoggedIn: false,
-      }
+      },
     },
     {
       path: '/dashboard',
@@ -48,6 +48,7 @@ const router = new Router({
       },
     },
   ],
+  linkActiveClass: 'is-active',
 });
 
 router.beforeEach((to, from, next) => {

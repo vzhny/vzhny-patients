@@ -11,7 +11,7 @@
         <div class="navbar-item">
           <a class="button is-text" @click="emitAddNewPatient">
             <span class="icon">
-              <i class="fas fa-user-plus"></i>
+              <i class="fas fa-user-plus" />
             </span>
             <span>Add a New Patient</span>
           </a>
@@ -21,7 +21,7 @@
         <div class="navbar-item">
           <router-link v-if="!currentlyLoggedIn" to="/register" class="button is-text">
             <span class="icon">
-              <i class="fas fa-plus-square"></i>
+              <i class="fas fa-plus-square" />
             </span>
             <span>Register</span>
           </router-link>
@@ -29,7 +29,7 @@
         <div class="navbar-item">
           <router-link v-if="!currentlyLoggedIn" to="/login" class="button is-text">
             <span class="icon">
-              <i class="fas fa-sign-in-alt"></i>
+              <i class="fas fa-sign-in-alt" />
             </span>
             <span>Login</span>
           </router-link>
@@ -37,7 +37,7 @@
         <div class="navbar-item">
           <a v-if="currentlyLoggedIn" class="button is-text" @click="logout">
             <span class="icon">
-              <i class="fas fa-sign-out-alt"></i>
+              <i class="fas fa-sign-out-alt" />
             </span>
             <span>Logout</span>
           </a>
@@ -48,8 +48,6 @@
 </template>
 
 <script>
-import axios from 'axios';
-
 import EventBus from '../eventbus.js';
 
 export default {
@@ -68,12 +66,12 @@ export default {
   },
   methods: {
     emitAddNewPatient() {
-      EventBus.$emit('add-new-patient');
+      EventBus.$emit('show-add-patient-card');
     },
     logout() {
       const url = 'https://vzhny-patients-api.herokuapp.com/api/auth/logout';
 
-      axios
+      this.$http
         .post(url)
         .then(response => {
           this.$store.commit('currentlyLoggedIn', { token: null });
@@ -99,6 +97,7 @@ export default {
     text-decoration: none;
     transition: all 250ms ease-in-out;
 
+    &.is-active,
     &:hover {
       color: invert($off-white);
       transition: all 250ms ease-in-out;

@@ -3,9 +3,9 @@
     <div class="add-patient card">
       <header class="card-header">
         <p class="card-header-title">
-          New Patient Information
+          {{ patient.name }}
         </p>
-        <a class="card-header-icon close-button" @click="emitCloseAddPatientCard">
+        <a class="card-header-icon close-button" @click="emitCloseEditPatientCard">
           <span class="icon">
             <i class="fas fa-times" />
           </span>
@@ -13,7 +13,7 @@
       </header>
       <div class="card-content">
         <div class="content">
-          <form @keyup.enter="addNewPatient">
+          <form>
             <div class="container">
               <div class="columns">
                 <div class="column is-half">
@@ -49,7 +49,7 @@
                   <div class="field">
                     <label class="label">Email</label>
                     <div class="control is-expanded">
-                      <input v-model="patient.email" class="input" type="email">
+                      <input v-model="patient.email" class="input" type="text">
                     </div>
                   </div>
                 </div>
@@ -108,10 +108,10 @@
             </div>
           </form>
         </div>
-        <p v-if="errors.errorAddingPatient" id="error-text" class="help is-danger has-text-centered">There was an error trying to add the patient. Please try again later.</p>
+        <p v-if="errors.errorEditingPatient" id="error-text" class="help is-danger has-text-centered">There was an error trying to edit the patient. Please try again later.</p>
       </div>
       <footer class="card-footer">
-        <a class="card-footer-item" @click="addNewPatient">Add Patient</a>
+        <a class="card-footer-item" @click="updatePatient">Update Patient</a>
       </footer>
     </div>
   </transition>
@@ -122,7 +122,13 @@ import moment from 'moment';
 import EventBus from '../eventbus.js';
 
 export default {
-  name: 'AddPatientCard',
+  name: 'EditPatientCard',
+  props: {
+    id: {
+      type: String,
+      default: '',
+    },
+  },
   data() {
     return {
       patient: {
@@ -133,32 +139,48 @@ export default {
         reason: null,
         diagnosis: null,
         notes: null,
-        lastVisit: moment(Date.now()).format('MM/DD/YY'),
-        numberOfSessions: 1,
+        lastVisit: null,
+        numberOfSessions: null,
       },
       errors: {
         nameInvalid: false,
         addressInvalid: false,
         phoneNumberInvalid: false,
-        errorAddingPatient: false,
+        errorEditingPatient: false,
       },
       feedback: null,
     };
   },
+  mounted() {
+    EventBus.$on('show-add-patient-card', () => {
+      this.showAddPatientCard = true;
+    });
+  },
+  created() {
+    const url = `https://vzhny-patients-api.herokuapp.com/api/patients/${this.id}`;
+
+    this.$http
+      .get(url)
+      .then(response => {
+        this.patient = response.data;
+        this.patient.numberOfSessions += 1;
+      })
+      .catch(error => console.log(error));
+  },
   methods: {
-    emitCloseAddPatientCard() {
-      EventBus.$emit('close-add-patient-card');
+    emitCloseEditPatientCard() {
+      EventBus.$emit('close-edit-patient-card');
     },
-    addNewPatient() {
-      const url = 'https://vzhny-patients-api.herokuapp.com/api/patients';
+    updatePatient() {
+      const url = `https://vzhny-patients-api.herokuapp.com/api/patients/${this.id}`;
       const userLoggedIn = this.$store.getters.checkIfLoggedIn;
 
       if (userLoggedIn) {
         this.$http
-          .post(url, this.patient)
+          .put(url, this.patient)
           .then(response => {
             // this.patient = response.data;
-            this.emitCloseAddPatientCard();
+            this.emitCloseEditPatientCard();
             EventBus.$emit('update-patient-list');
             EventBus.$emit('crud-action');
           })

@@ -55,8 +55,6 @@
 </template>
 
 <script>
-import axios from 'axios';
-
 export default {
   name: 'Register',
   data() {
@@ -98,11 +96,11 @@ export default {
           password: this.password,
         };
 
-        axios
+        this.$http
           .post(url, credentials)
           .then(response => {
             this.$store.commit('currentlyLoggedIn', { token: response.data.token });
-            axios.defaults.headers.common['x-auth-token'] = this.$store.getters.retrieveAuthToken;
+            this.$http.defaults.headers.common['x-auth-token'] = this.$store.getters.retrieveAuthToken;
             this.$router.push('/dashboard');
           })
           .catch(error => {

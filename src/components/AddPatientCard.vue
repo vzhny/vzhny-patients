@@ -89,6 +89,7 @@
                     <div class="control is-expanded">
                       <input v-model="patient.lastVisit" class="input" type="text">
                     </div>
+                    <p v-if="errors.lastVisitInvalid" class="help is-danger">Please enter the date in MM/DD/YY format.</p>
                   </div>
                 </div>
                 <div class="column is-half">
@@ -97,6 +98,7 @@
                     <div class="control is-expanded">
                       <input v-model="patient.numberOfSessions" class="input" type="number">
                     </div>
+                    <p v-if="errors.numberOfSessionsInvalid" class="help is-danger">Please a minimum of one (1) session.</p>
                   </div>
                 </div>
               </div>

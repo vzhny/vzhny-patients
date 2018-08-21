@@ -7,54 +7,76 @@
       </p>
     </header>
     <div class="card-content">
-      <table class="table is-striped is-fullwidth">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Reason(s)</th>
-            <th>Diagnosis</th>
-            <th>Notes</th>
-            <th>Last Visit</th>
-            <th>
-              <span class="is-pulled-right">Actions</span>
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(patient, index) in filteredPatients" :key="index">
-            <td>{{ patient.name }}</td>
-            <td>{{ patient.reason }}</td>
-            <td>{{ patient.diagnosis }}</td>
-            <td>{{ patient.notes }}</td>
-            <td>{{ patient.lastVisit }}</td>
-            <td>
-              <span class="is-pulled-right">
-                <a class="crud-action-more-info" @click="expandPatientInformation(patient)">
-                  <i class="fas fa-arrow-circle-down" />
-                </a>
-                <a class="crud-action-edit" @click="editPatient(patient._id)">
-                  <i class="fas fa-pen" />
-                </a>
-                <a class="crud-action-delete" @click="deletePatient(patient._id)">
-                  <i class="fas fa-times" />
-                </a>
-              </span>
-            </td>
-          </tr>
-        </tbody>
-        <tfoot>
-          <tr>
-            <th>Name</th>
-            <th>Reason(s)</th>
-            <th>Diagnosis</th>
-            <th>Notes</th>
-            <th>Last Visit</th>
-            <th>
-              <span class="is-pulled-right">Actions</span>
-            </th>
-          </tr>
-        </tfoot>
-      </table>
+      <div class="head columns is-variable is-1">
+        <div class="column is-2">
+          <p class="has-text-left">Name</p>
+        </div>
+        <div class="column">
+          <p>Reason(s)</p>
+        </div>
+        <div class="column">
+          <p>Diagnosis</p>
+        </div>
+        <div class="column">
+          <p>Notes</p>
+        </div>
+        <div class="column is-1">
+          <p class="has-text-centered">Last Visit</p>
+        </div>
+        <div class="column is-1">
+          <p class="has-text-right">Actions</p>
+        </div>
+      </div>
+      <div v-for="(patient, index) in filteredPatients" :key="index" class="data columns is-variable is-1">
+        <div class="column is-2">
+          <p class="has-text-left">{{ patient.name }}</p>
+        </div>
+        <div class="column">
+          <p>{{ patient.reason }}</p>
+        </div>
+        <div class="column">
+          <p>{{ patient.diagnosis }}</p>
+        </div>
+        <div class="column">
+          <p>{{ patient.notes }}</p>
+        </div>
+        <div class="column is-1">
+          <p class="has-text-centered">{{ patient.lastVisit }}</p>
+        </div>
+        <div class="column is-1">
+          <span class="is-pulled-right">
+            <a class="crud-action-more-info" @click="expandPatientInformation(patient)">
+              <i class="fas fa-arrow-circle-down" />
+            </a>
+            <a class="crud-action-edit" @click="editPatient(patient._id)">
+              <i class="fas fa-pen" />
+            </a>
+            <a class="crud-action-delete" @click="deletePatient(patient._id)">
+              <i class="fas fa-times" />
+            </a>
+          </span>
+        </div>
+      </div>
+      <div class="foot columns is-variable is-1">
+        <div class="column is-2">
+          <p class="has-text-left">Name</p>
+        </div>
+        <div class="column">
+          <p>Reason(s)</p>
+        </div>
+        <div class="column">
+          <p>Diagnosis</p>
+        </div>
+        <div class="column">
+          <p>Notes</p>
+        </div>
+        <div class="column is-1">
+          <p class="has-text-centered">Last Visit</p>
+        </div>
+        <div class="column is-1">
+          <p class="has-text-right">Actions</p>
+        </div>
+      </div>
     </div>
     <p v-if="feedback">{{ feedback }}</p>
   </div>
@@ -149,6 +171,30 @@ export default {
 
   &::placeholder {
     color: darken($off-white, 30);
+  }
+}
+
+.head.columns {
+  font-weight: bold;
+  border-bottom: 2px solid $off-white;
+}
+
+.foot.columns {
+  font-weight: bold;
+  border-top: 2px solid $off-white;
+}
+
+.data.columns {
+  margin-bottom: 8px;
+}
+
+.card-content > .data.columns {
+  &:nth-child(odd) {
+    background-color: #fafafa;
+  }
+
+  &:nth-child(even) {
+    background-color: #fff;
   }
 }
 

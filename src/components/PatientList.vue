@@ -2,12 +2,12 @@
   <div class="patient-list card">
     <header class="card-header">
       <p class="card-header-title flexed">
-        <span>Total Patients: {{ patients.length }}</span>
-        <span class="is-pulled-right">This is pulled right.</span>
+        <span>Total Patients: {{ filteredPatients.length }}</span>
+        <span class="control is-pulled-right"><input id="search" v-model="search" type="text" name="search" placeholder="Search by Patient Name"></span>
       </p>
     </header>
     <div class="card-content">
-      <table v-if="noPatients" class="table is-striped is-fullwidth">
+      <table class="table is-striped is-fullwidth">
         <thead>
           <tr>
             <th>Name</th>
@@ -21,7 +21,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(patient, index) in patients" :key="index">
+          <tr v-for="(patient, index) in filteredPatients" :key="index">
             <td>{{ patient.name }}</td>
             <td>{{ patient.reason }}</td>
             <td>{{ patient.diagnosis }}</td>
@@ -41,7 +41,6 @@
               </span>
             </td>
           </tr>
-          <vzhny-patient-details v-if="showExpandedPatientInfo" />
         </tbody>
         <tfoot>
           <tr>
@@ -56,7 +55,6 @@
           </tr>
         </tfoot>
       </table>
-      <p v-if="!noPatients" class="add-patients-text has-text-centered">Please begin by adding a patient using the link above!</p>
     </div>
     <p v-if="feedback">{{ feedback }}</p>
   </div>
@@ -73,23 +71,20 @@ export default {
   },
   data() {
     return {
-      noPatients: true,
       patients: [],
+      search: '',
       showExpandedPatientInfo: false,
       feedback: null,
     };
   },
+  computed: {
+    filteredPatients() {
+      return this.patients.filter(patient => patient.name.toLowerCase().includes(this.search));
+    },
+  },
   mounted() {
     EventBus.$on('update-patient-list', () => {
       this.fetchPatients();
-    });
-
-    EventBus.$on('crud-action', () => {
-      if (this.patients.length === 0) {
-        this.noPatients = true;
-      } else {
-        this.noPatients = false;
-      }
     });
   },
   created() {
@@ -125,7 +120,6 @@ export default {
           .delete(url)
           .then(response => {
             EventBus.$emit('update-patient-list');
-            EventBus.$emit('crud-action');
           })
           .catch(error => {
             this.feedback = 'Error deleting the patient from the server. Please try again.';
@@ -148,6 +142,14 @@ export default {
 .flexed {
   display: flex;
   justify-content: space-between;
+}
+
+#search {
+  padding: 10px;
+
+  &::placeholder {
+    color: darken($off-white, 30);
+  }
 }
 
 .add-patients-text {

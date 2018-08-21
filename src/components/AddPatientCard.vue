@@ -160,7 +160,6 @@ export default {
             // this.patient = response.data;
             this.emitCloseAddPatientCard();
             EventBus.$emit('update-patient-list');
-            EventBus.$emit('crud-action');
           })
           .catch(error => console.log(error));
       } else {

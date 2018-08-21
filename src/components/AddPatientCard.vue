@@ -22,7 +22,7 @@
                     <div class="control is-expanded">
                       <input v-model="patient.name" class="input" type="text">
                     </div>
-                    <p v-if="errors.nameInvalid" class="help is-danger">Please enter the patient's full name.</p>
+                    <p v-if="errors.nameInvalid" class="help is-danger">Please enter the patient's name.</p>
                   </div>
                 </div>
                 <div class="column is-half">
@@ -120,27 +120,23 @@
 <script>
 import moment from 'moment';
 import EventBus from '../eventbus.js';
+import formValidationMixin from '../mixins/patientFormValidationMixin.js';
 
 export default {
   name: 'AddPatientCard',
+  mixins: [formValidationMixin],
   data() {
     return {
       patient: {
-        name: null,
-        address: null,
-        phoneNumber: null,
+        name: '',
+        address: '',
+        phoneNumber: '',
         email: null,
         reason: null,
         diagnosis: null,
         notes: null,
         lastVisit: moment(Date.now()).format('MM/DD/YY'),
         numberOfSessions: 1,
-      },
-      errors: {
-        nameInvalid: false,
-        addressInvalid: false,
-        phoneNumberInvalid: false,
-        errorAddingPatient: false,
       },
       feedback: null,
     };
@@ -153,15 +149,22 @@ export default {
       const url = 'https://vzhny-patients-api.herokuapp.com/api/patients';
       const userLoggedIn = this.$store.getters.checkIfLoggedIn;
 
+      this.showValidationErrors();
+
       if (userLoggedIn) {
-        this.$http
-          .post(url, this.patient)
-          .then(response => {
-            // this.patient = response.data;
-            this.emitCloseAddPatientCard();
-            EventBus.$emit('update-patient-list');
-          })
-          .catch(error => console.log(error));
+        if (!this.checkPatientFormValidation()) {
+          this.feedback = 'Please fill out the form correctly and resubmit.';
+        } else {
+          this.$http
+            .post(url, this.patient)
+            .then(response => {
+              this.emitCloseAddPatientCard();
+              EventBus.$emit('update-patient-list');
+            })
+            .catch(error => {
+              this.feedback = error;
+            });
+        }
       } else {
         this.feedback = 'Not currently logged in. Please log in to display your patients.';
       }

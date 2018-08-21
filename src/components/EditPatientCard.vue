@@ -118,11 +118,12 @@
 </template>
 
 <script>
-import moment from 'moment';
 import EventBus from '../eventbus.js';
+import formValidationMixin from '../mixins/patientFormValidationMixin.js';
 
 export default {
   name: 'EditPatientCard',
+  mixins: [formValidationMixin],
   props: {
     id: {
       type: String,
@@ -141,12 +142,6 @@ export default {
         notes: null,
         lastVisit: null,
         numberOfSessions: null,
-      },
-      errors: {
-        nameInvalid: false,
-        addressInvalid: false,
-        phoneNumberInvalid: false,
-        errorEditingPatient: false,
       },
       feedback: null,
     };
@@ -175,15 +170,22 @@ export default {
       const url = `https://vzhny-patients-api.herokuapp.com/api/patients/${this.id}`;
       const userLoggedIn = this.$store.getters.checkIfLoggedIn;
 
+      this.showValidationErrors();
+
       if (userLoggedIn) {
-        this.$http
-          .put(url, this.patient)
-          .then(response => {
-            // this.patient = response.data;
-            this.emitCloseEditPatientCard();
-            EventBus.$emit('update-patient-list');
-          })
-          .catch(error => console.log(error));
+        if (!this.checkPatientFormValidation()) {
+          this.feedback = 'Please fill out the form correctly and resubmit.';
+        } else {
+          this.$http
+            .put(url, this.patient)
+            .then(response => {
+              this.emitCloseEditPatientCard();
+              EventBus.$emit('update-patient-list');
+            })
+            .catch(error => {
+              this.feedback = error;
+            });
+        }
       } else {
         this.feedback = 'Not currently logged in. Please log in to display your patients.';
       }

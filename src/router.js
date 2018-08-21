@@ -9,8 +9,6 @@ import Login from './views/Login.vue';
 
 Vue.use(Router);
 
-// TODO - any routes that add/edit patients need meta = requiresAuth
-// TODO - fix login and register routes to redirect to the dashboard if the user is currently logged in
 const router = new Router({
   mode: 'history',
   routes: [
@@ -20,7 +18,6 @@ const router = new Router({
       component: Landing,
       meta: {
         requiresAuth: false,
-        isCurrentlyLoggedIn: false,
       },
     },
     {
@@ -36,7 +33,7 @@ const router = new Router({
       name: 'Register',
       component: Register,
       meta: {
-        isCurrentlyLoggedIn: true,
+        requiresAuth: false,
       },
     },
     {
@@ -44,7 +41,7 @@ const router = new Router({
       name: 'Login',
       component: Login,
       meta: {
-        isCurrentlyLoggedIn: true,
+        requiresAuth: false,
       },
     },
   ],
@@ -53,17 +50,12 @@ const router = new Router({
 
 router.beforeEach((to, from, next) => {
   const userLoggedIn = store.getters.checkIfLoggedIn;
+
   if (to.matched.some(rec => rec.meta.requiresAuth)) {
     if (userLoggedIn) {
       next();
     } else {
-      next({ name: 'Login' });
-    }
-  } else if (to.matched.some(rec => rec.meta.isCurrentlyLoggedIn)) {
-    if (userLoggedIn) {
-      next({ name: 'Dashboard' });
-    } else {
-      next();
+      next('/login');
     }
   } else {
     next();

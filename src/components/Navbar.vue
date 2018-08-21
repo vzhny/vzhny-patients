@@ -1,7 +1,7 @@
 <template>
   <nav class="navbar">
     <div class="navbar-brand">
-      <router-link to="/" class="navbar-item">
+      <router-link to="/dashboard" class="navbar-item">
         <img src="../assets/images/vzhny-logo.png" alt="vzhny patients" width="112" height="28">
       </router-link>
     </div>

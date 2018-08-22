@@ -1,27 +1,20 @@
 <template>
-  <section class="hero is-large">
-    <div class="hero-body">
-      <div class="container">
-        <h1 class="title">
-          Welcome to vzhny patients!
-        </h1>
-        <h2 class="subtitle">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Ut, odit vitae sequi explicabo nulla sunt mollitia optio aut excepturi odio assumenda maxime deleniti.
-        </h2>
-
-        <div class="columns">
-          <div class="column is-one-third">
-            <p class="heading has-text-centered">Features 1</p>
-            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ab laudantium molestiae iusto sit nam neque quod totam inventore aliquam vitae?</p>
-          </div>
-          <div class="column is-one-third">
-            <p class="heading has-text-centered">Features 2</p>
-            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ab laudantium molestiae iusto sit nam neque quod totam inventore aliquam vitae?</p>
-          </div>
-          <div class="column is-one-third">
-            <p class="heading has-text-centered">Features 3</p>
-            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ab laudantium molestiae iusto sit nam neque quod totam inventore aliquam vitae?</p>
-          </div>
+  <section class="landing">
+    <div class="container">
+      <div class="columns">
+        <div class="column">
+          <h1 class="title">
+            Welcome to vzhny patients!
+          </h1>
+          <h2 class="subtitle">
+            A Vue-powered web app, providing a secure place to keep and update general patient information.
+          </h2>
+        </div>
+      </div>
+      <div class="features columns">
+        <div v-for="(feature, index) in features" :key="index" class="column is-one-third">
+          <p class="heading has-text-centered">{{ feature.title }}</p>
+          <p class="has-text-centered">{{ feature.body }}.</p>
         </div>
       </div>
     </div>
@@ -31,22 +24,69 @@
 <script>
 export default {
   data() {
-    return {};
+    return {
+      features: [
+        {
+          title: 'Full patient data manipulation',
+          body: 'Create, retrieve, update, and delete patient information',
+        },
+        {
+          title: 'Authentication and authorization',
+          body: 'You saved data is safe and secure',
+        },
+        {
+          title: 'Simple and straightforward design',
+          body: 'Quickly and efficiently manage all your patients',
+        },
+      ],
+    };
   },
 };
 </script>
 
-<style lang="scss">
-section {
-  height: calc(3.5rem - 100vh);
+<style lang="scss" scoped>
+@import '../styles/settings.scss';
+
+.landing {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-image: url('../assets/images/landing-background-blurred.jpeg');
+  color: $off-white;
+
+  &::before {
+    position: absolute;
+    content: '';
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+  }
 
   .title {
+    color: $off-white;
     font-size: 5rem;
+  }
+
+  .subtitle {
+    color: $off-white;
   }
 
   .heading {
     font-size: 1.5rem;
   }
+}
+
+h1,
+h2,
+p {
+  text-shadow: 0px 2px 3px rgba(0, 0, 0, 0.75);
 }
 </style>
 

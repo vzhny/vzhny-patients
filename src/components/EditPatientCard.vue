@@ -20,7 +20,7 @@
                   <div class="field">
                     <label class="label">Full Name</label>
                     <div class="control is-expanded">
-                      <input v-model="patient.name" class="input" type="text">
+                      <input v-model="patient.name" :class="{'is-danger': errors.nameInvalid}" class="input" type="text">
                     </div>
                     <p v-if="errors.nameInvalid" class="help is-danger">Please enter the patient's full name.</p>
                   </div>
@@ -29,7 +29,7 @@
                   <div class="field">
                     <label class="label">Address</label>
                     <div class="control is-expanded">
-                      <input v-model="patient.address" class="input" type="text">
+                      <input v-model="patient.address" :class="{'is-danger': errors.addressInvalid}" class="input" type="text">
                     </div>
                     <p v-if="errors.addressInvalid" class="help is-danger">Please enter the patient's address.</p>
                   </div>
@@ -40,7 +40,7 @@
                   <div class="field">
                     <label class="label">Phone Number</label>
                     <div class="control is-expanded">
-                      <input v-model="patient.phoneNumber" class="input" type="text">
+                      <input v-model="patient.phoneNumber" :class="{'is-danger': errors.phoneNumberInvalid}" class="input" type="text">
                     </div>
                     <p v-if="errors.phoneNumberInvalid" class="help is-danger">Please enter the patient's phone number.</p>
                   </div>
@@ -87,7 +87,7 @@
                   <div class="field">
                     <label class="label">Last Visit</label>
                     <div class="control is-expanded">
-                      <input v-model="patient.lastVisit" class="input" type="text">
+                      <input v-model="patient.lastVisit" :class="{'is-danger': errors.lastVisitInvalid}" class="input" type="text">
                     </div>
                     <p v-if="errors.lastVisitInvalid" class="help is-danger">Please enter the date in MM/DD/YY format.</p>
                   </div>
@@ -96,7 +96,7 @@
                   <div class="field">
                     <label class="label">Number of Sessions</label>
                     <div class="control is-expanded">
-                      <input v-model="patient.numberOfSessions" class="input" type="number">
+                      <input v-model="patient.numberOfSessions" :class="{'is-danger': errors.numberOfSessionsInvalid}" class="input" type="number">
                     </div>
                     <p v-if="errors.numberOfSessionsInvalid" class="help is-danger">Please a minimum of one (1) session.</p>
                   </div>

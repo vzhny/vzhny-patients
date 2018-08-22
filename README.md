@@ -13,3 +13,4 @@ A Vue-powered web app, providing a secure place to keep and update general patie
 - [Vue.js](https://vuejs.org/)
 - [Bulma](https://bulma.io/)
 - [FontAwesome Icons](https://fontawesome.com/icons)
+- [Pexels Images](https://www.pexels.com/)

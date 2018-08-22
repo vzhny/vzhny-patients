@@ -1,9 +1,15 @@
 <template>
   <nav class="navbar">
     <div class="navbar-brand">
-      <router-link to="/dashboard" class="navbar-item">
+      <!-- May redirect to /dashboard again, depends on how link-active is reacting to responsiveness -->
+      <div class="navbar-item">
         <img src="../assets/images/vzhny-logo.png" alt="vzhny patients" width="112" height="28">
-      </router-link>
+      </div>
+      <a class="navbar-burger burger">
+        <span/>
+        <span/>
+        <span/>
+      </a>
     </div>
 
     <div class="navbar-menu">
@@ -103,5 +109,9 @@ export default {
       transition: all 250ms ease-in-out;
     }
   }
+}
+
+.navbar-burger.burger {
+  color: $off-white;
 }
 </style>

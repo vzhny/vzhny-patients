@@ -18,7 +18,7 @@ export default {
       return false;
     },
     showValidationErrors() {
-      const validateLastVisited = /[0-9]{2}\/[0-9]{2}\/[0-9]{2}/g;
+      const validateLastVisit = /[0-9]{2}\/[0-9]{2}\/[0-9]{2}/g;
 
       if (!this.patient.name.length) {
         this.errors.nameInvalid = true;
@@ -38,7 +38,7 @@ export default {
         this.errors.phoneNumberInvalid = false;
       }
 
-      if (!validateLastVisited.test(this.patient.lastVisit)) {
+      if (!validateLastVisit.test(this.patient.lastVisit)) {
         this.errors.lastVisitInvalid = true;
       } else {
         this.errors.lastVisitInvalid = false;

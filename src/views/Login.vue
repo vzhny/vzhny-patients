@@ -14,26 +14,26 @@
                 <div class="field">
                   <label class="label">Username</label>
                   <div class="control has-icons-left">
-                    <input v-model="username" class="input" type="text">
+                    <input v-model="username" :class="{'is-danger': errors.usernameInvalid}" class="input" type="text">
                     <span class="icon is-small is-left">
                       <i class="fas fa-user" />
                     </span>
                   </div>
-                  <p v-if="usernameInvalid" class="help is-danger">Please enter a username.</p>
+                  <p v-if="errors.usernameInvalid" class="help is-danger">Please enter a username.</p>
                 </div>
                 <div class="field">
                   <label class="label">Password</label>
                   <div class="control has-icons-left">
-                    <input v-model="password" class="input" type="password">
+                    <input v-model="password" :class="{'is-danger': errors.passwordInvalid}" class="input" type="password">
                     <span class="icon is-small is-left">
                       <i class="fas fa-lock" />
                     </span>
                   </div>
-                  <p v-if="passwordInvalid" class="help is-danger">Please enter a password.</p>
+                  <p v-if="errors.passwordInvalid" class="help is-danger">Please enter a password.</p>
                 </div>
               </form>
             </div>
-            <p v-if="errorLoggingIn" id="error-text" class="help is-danger has-text-centered">There was an error trying to log in. Please try again later.</p>
+            <p v-if="errorLoggingIn" id="error-text" class="help is-danger has-text-centered">{{ errorLoggingIn }}</p>
           </div>
           <footer class="card-footer">
             <a class="card-footer-item" @click="login">Submit</a>
@@ -51,26 +51,28 @@ export default {
     return {
       username: '',
       password: '',
-      usernameInvalid: false,
-      passwordInvalid: false,
-      errorLoggingIn: false,
+      errors: {
+        usernameInvalid: false,
+        passwordInvalid: false,
+      },
+      errorLoggingIn: null,
     };
+  },
+  watch: {
+    username() {
+      this.errors.usernameInvalid = false;
+      this.errorLoggingIn = null;
+    },
+    password() {
+      this.errors.passwordInvalid = false;
+      this.errorLoggingIn = null;
+    },
   },
   methods: {
     login() {
-      if (!this.username.length) {
-        this.usernameInvalid = true;
-      } else {
-        this.usernameInvalid = false;
-      }
+      this.showLoginValidationErrors();
 
-      if (!this.password.length) {
-        this.passwordInvalid = true;
-      } else {
-        this.passwordInvalid = false;
-      }
-
-      if (this.checkFormValidation()) {
+      if (this.checkLoginFormValidation()) {
         const url = 'https://vzhny-patients-api.herokuapp.com/api/auth/login';
         const credentials = {
           username: this.username,
@@ -85,15 +87,30 @@ export default {
             this.$router.push('/dashboard');
           })
           .catch(error => {
-            this.errorRegistering = true;
+            this.errorLoggingIn = 'There was an error trying to log in. Please try again later.';
           });
+      } else {
+        this.errorLoggingIn = 'Please fill out the login form correctly.';
       }
     },
-    checkFormValidation() {
-      if (!this.usernameInvalid && !this.passwordInvalid) {
+    checkLoginFormValidation() {
+      if (!this.errors.usernameInvalid && !this.errors.passwordInvalid) {
         return true;
       }
       return false;
+    },
+    showLoginValidationErrors() {
+      if (!this.username.length) {
+        this.errors.usernameInvalid = true;
+      } else {
+        this.errors.usernameInvalid = false;
+      }
+
+      if (!this.password.length) {
+        this.errors.passwordInvalid = true;
+      } else {
+        this.errors.passwordInvalid = false;
+      }
     },
   },
 };

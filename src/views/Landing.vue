@@ -32,7 +32,7 @@ export default {
         },
         {
           title: 'Authentication and authorization',
-          body: 'You saved data is safe and secure',
+          body: 'Your saved data is safe and secure',
         },
         {
           title: 'Simple and straightforward design',

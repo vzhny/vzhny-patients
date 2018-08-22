@@ -2,49 +2,60 @@
   <div class="patient-list card">
     <header class="card-header">
       <p class="card-header-title flexed">
-        <span>Total Patients: {{ filteredPatients.length }}</span>
-        <span class="control is-pulled-right"><input id="search" v-model="search" type="text" name="search" placeholder="Search by Patient Name"></span>
+        <span class="total-patients">Total Patients: {{ filteredPatients.length }}</span>
+        <span class="page-information">
+          <button :disabled="atFirstPage()" class="page-button button" @click="prevPage">
+            <i class="fas fa-arrow-left" />
+          </button>
+          <span class="page-counter">Page: {{ pageNumber + 1 }} of {{ pageCount }}</span>
+          <button :disabled="atLastPage()" class="page-button button" @click="nextPage">
+            <i class="fas fa-arrow-right" />
+          </button>
+        </span>
+        <span class="search-bar control">
+          <input id="search" v-model="search" type="text" name="search" placeholder="Search by Patient Name">
+        </span>
       </p>
     </header>
     <div class="card-content">
       <div class="head columns is-variable is-1">
         <div class="column is-2">
-          <p class="has-text-left">Name</p>
+          <p class="patient-name">Name</p>
         </div>
         <div class="column">
-          <p>Reason(s)</p>
+          <p class="patient-reason">Reason(s)</p>
         </div>
         <div class="column">
-          <p>Diagnosis</p>
+          <p class="patient-diagnosis">Diagnosis</p>
         </div>
         <div class="column">
-          <p>Notes</p>
+          <p class="patient-notes">Notes</p>
         </div>
         <div class="column is-1">
-          <p class="has-text-centered">Last Visit</p>
+          <p class="patient-last-visit">Last Visit</p>
         </div>
         <div class="column is-1">
-          <p class="has-text-right">Actions</p>
+          <p class="patient-actions">Actions</p>
         </div>
       </div>
-      <div v-for="(patient, index) in filteredPatients" :key="index" class="data columns is-variable is-1">
+      <div v-for="(patient, index) in paginatedData" :key="index" class="data columns is-variable is-1">
         <div class="column is-2">
-          <p class="has-text-left">{{ patient.name }}</p>
+          <p class="patient-name">{{ patient.name }}</p>
         </div>
         <div class="column">
-          <p>{{ patient.reason }}</p>
+          <p class="patient-reason">{{ patient.reason }}</p>
         </div>
         <div class="column">
-          <p>{{ patient.diagnosis }}</p>
+          <p class="patient-diagnosis">{{ patient.diagnosis }}</p>
         </div>
         <div class="column">
-          <p>{{ patient.notes }}</p>
+          <p class="patient-notes">{{ patient.notes }}</p>
         </div>
         <div class="column is-1">
-          <p class="has-text-centered">{{ patient.lastVisit }}</p>
+          <p class="patient-last-visit">{{ patient.lastVisit }}</p>
         </div>
         <div class="column is-1">
-          <span class="is-pulled-right">
+          <p class="patient-actions">
             <a class="crud-action-more-info" @click="expandPatientInformation(patient)">
               <i class="fas fa-arrow-circle-down" />
             </a>
@@ -54,27 +65,27 @@
             <a class="crud-action-delete" @click="deletePatient(patient._id)">
               <i class="fas fa-times" />
             </a>
-          </span>
+          </p>
         </div>
       </div>
       <div class="foot columns is-variable is-1">
         <div class="column is-2">
-          <p class="has-text-left">Name</p>
+          <p class="patient-name">Name</p>
         </div>
         <div class="column">
-          <p>Reason(s)</p>
+          <p class="patient-reason">Reason(s)</p>
         </div>
         <div class="column">
-          <p>Diagnosis</p>
+          <p class="patient-diagnosis">Diagnosis</p>
         </div>
         <div class="column">
-          <p>Notes</p>
+          <p class="patient-notes">Notes</p>
         </div>
         <div class="column is-1">
-          <p class="has-text-centered">Last Visit</p>
+          <p class="patient-last-visit">Last Visit</p>
         </div>
         <div class="column is-1">
-          <p class="has-text-right">Actions</p>
+          <p class="patient-actions">Actions</p>
         </div>
       </div>
     </div>
@@ -97,11 +108,23 @@ export default {
       search: '',
       showExpandedPatientInfo: false,
       feedback: null,
+      pageNumber: 0,
+      pageSize: 10,
     };
   },
   computed: {
     filteredPatients() {
-      return this.patients.filter(patient => patient.name.toLowerCase().includes(this.search));
+      return this.patients.filter(patient => patient.name.toLowerCase().includes(this.search.toLowerCase()));
+    },
+    pageCount() {
+      const { length } = this.searchedPatients();
+      const size = this.pageSize;
+      return Math.ceil(length / size);
+    },
+    paginatedData() {
+      const start = this.pageNumber * this.pageSize;
+      const end = start + this.pageSize;
+      return this.searchedPatients().slice(start, end);
     },
   },
   mounted() {
@@ -151,8 +174,22 @@ export default {
       }
     },
     expandPatientInformation(patient) {
-      console.log(patient);
       this.showExpandedPatientInfo = !this.showExpandedPatientInfo;
+    },
+    searchedPatients() {
+      return this.patients.filter(patient => patient.name.toLowerCase().includes(this.search.toLowerCase()));
+    },
+    nextPage() {
+      this.pageNumber += 1;
+    },
+    prevPage() {
+      this.pageNumber -= 1;
+    },
+    atFirstPage() {
+      return this.pageNumber === 0;
+    },
+    atLastPage() {
+      return this.pageNumber >= this.pageCount - 1;
     },
   },
 };
@@ -164,6 +201,15 @@ export default {
 .flexed {
   display: flex;
   justify-content: space-between;
+}
+
+.page-counter {
+  margin: 0 1rem;
+}
+
+.page-button {
+  margin-top: 7px;
+  display: inline;
 }
 
 #search {
@@ -186,6 +232,16 @@ export default {
 
 .data.columns {
   margin-bottom: 8px;
+}
+
+.patient {
+  &-last-visit {
+    text-align: center;
+  }
+
+  &-actions {
+    text-align: right;
+  }
 }
 
 .card-content > .data.columns {
@@ -215,5 +271,27 @@ export default {
 .crud-action-delete {
   margin-right: 5px;
   color: $red;
+}
+
+@media screen and (max-width: 768px) {
+  .flexed {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    .page-information {
+      margin: 1rem 0;
+    }
+  }
+
+  .patient {
+    &-name,
+    &-reason,
+    &-diagnosis,
+    &-notes,
+    &-actions {
+      text-align: center;
+    }
+  }
 }
 </style>

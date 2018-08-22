@@ -6,7 +6,6 @@ Vue.use(Vuex);
 /* eslint-disable no-shadow */
 const state = {
   token: null,
-  patients: [],
 };
 
 const mutations = {

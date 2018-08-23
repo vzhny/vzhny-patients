@@ -1,22 +1,24 @@
 <template>
-  <div class="dashboard container is-fluid">
-    <div class="columns">
-      <div class="column">
-        <vzhny-add-patient-card v-if="showAddPatientCard" />
+  <section class="dashboard">
+    <div class="container is-fluid">
+      <div class="columns">
+        <div class="column">
+          <vzhny-add-patient-card v-if="showAddPatientCard" />
+        </div>
+      </div>
+      <div class="columns">
+        <div class="column">
+          <vzhny-edit-patient-card v-if="showEditPatientCard" :id="patientId" />
+        </div>
+      </div>
+      <div class="columns">
+        <div class="column">
+          <vzhny-patient-list v-if="!feedback" />
+          <p v-else>{{ feedback }}</p>
+        </div>
       </div>
     </div>
-    <div class="columns">
-      <div class="column">
-        <vzhny-edit-patient-card v-if="showEditPatientCard" :id="patientId" />
-      </div>
-    </div>
-    <div class="columns">
-      <div class="column">
-        <vzhny-patient-list v-if="!feedback" />
-        <p v-else>{{ feedback }}</p>
-      </div>
-    </div>
-  </div>
+  </section>
 </template>
 
 <script>
@@ -62,4 +64,9 @@ export default {
 </script>
 
 <style lang="scss">
+@import '../styles/settings.scss';
+@import '../styles/mixins.scss';
+
+.dashboard {
+}
 </style>

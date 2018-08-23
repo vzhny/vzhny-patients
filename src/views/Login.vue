@@ -1,47 +1,49 @@
 <template>
-  <div class="login container">
-    <div class="columns">
-      <div class="column is-offset-one-quarter is-half">
-        <div class="card">
-          <header class="card-header">
-            <p class="card-header-title is-centered">
-              Login
-            </p>
-          </header>
-          <div class="card-content">
-            <div class="content">
-              <form @keyup.enter="login">
-                <div class="field">
-                  <label class="label">Username</label>
-                  <div class="control has-icons-left">
-                    <input v-model="username" :class="{'is-danger': errors.usernameInvalid}" class="input" type="text">
-                    <span class="icon is-small is-left">
-                      <i class="fas fa-user" />
-                    </span>
+  <section class="login">
+    <div class="container">
+      <div class="columns">
+        <div class="column is-offset-one-quarter is-half">
+          <div class="card">
+            <header class="card-header">
+              <p class="card-header-title is-centered">
+                Login
+              </p>
+            </header>
+            <div class="card-content">
+              <div class="content">
+                <form @keyup.enter="login">
+                  <div class="field">
+                    <label class="label">Username</label>
+                    <div class="control has-icons-left">
+                      <input v-model="username" :class="{'is-danger': errors.usernameInvalid}" class="input" type="text">
+                      <span class="icon is-small is-left">
+                        <i class="fas fa-user" />
+                      </span>
+                    </div>
+                    <p v-if="errors.usernameInvalid" class="help is-danger">Please enter a username.</p>
                   </div>
-                  <p v-if="errors.usernameInvalid" class="help is-danger">Please enter a username.</p>
-                </div>
-                <div class="field">
-                  <label class="label">Password</label>
-                  <div class="control has-icons-left">
-                    <input v-model="password" :class="{'is-danger': errors.passwordInvalid}" class="input" type="password">
-                    <span class="icon is-small is-left">
-                      <i class="fas fa-lock" />
-                    </span>
+                  <div class="field">
+                    <label class="label">Password</label>
+                    <div class="control has-icons-left">
+                      <input v-model="password" :class="{'is-danger': errors.passwordInvalid}" class="input" type="password">
+                      <span class="icon is-small is-left">
+                        <i class="fas fa-lock" />
+                      </span>
+                    </div>
+                    <p v-if="errors.passwordInvalid" class="help is-danger">Please enter a password.</p>
                   </div>
-                  <p v-if="errors.passwordInvalid" class="help is-danger">Please enter a password.</p>
-                </div>
-              </form>
+                </form>
+              </div>
+              <p v-if="errorLoggingIn" id="error-text" class="help is-danger has-text-centered">{{ errorLoggingIn }}</p>
             </div>
-            <p v-if="errorLoggingIn" id="error-text" class="help is-danger has-text-centered">{{ errorLoggingIn }}</p>
+            <footer class="card-footer">
+              <a class="card-footer-item" @click="login">Submit</a>
+            </footer>
           </div>
-          <footer class="card-footer">
-            <a class="card-footer-item" @click="login">Submit</a>
-          </footer>
         </div>
       </div>
     </div>
-  </div>
+  </section>
 </template>
 
 <script>
@@ -116,7 +118,14 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
+@import '../styles/settings.scss';
+@import '../styles/mixins.scss';
+
+.login {
+  @include background-styles;
+}
+
 .card-header-title {
   font-size: 2rem;
 }

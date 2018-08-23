@@ -23,11 +23,21 @@ export default {
 <style lang="scss">
 @import url('https://fonts.googleapis.com/css?family=Barlow+Semi+Condensed');
 
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+}
+
 #app {
   font-family: 'Barlow Semi Condensed', sans-serif;
 }
 
-.container {
-  margin-top: 2rem;
+.link-is-active {
+  color: #fff;
+  border: solid 1px #fff;
+  border-radius: 4px;
+  margin: -1px;
 }
 </style>

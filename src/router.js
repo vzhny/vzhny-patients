@@ -45,7 +45,7 @@ const router = new Router({
       },
     },
   ],
-  linkActiveClass: 'is-active',
+  linkActiveClass: 'link-is-active',
 });
 
 router.beforeEach((to, from, next) => {

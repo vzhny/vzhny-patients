@@ -67,6 +67,7 @@
             </a>
           </p>
         </div>
+        <!-- <vzhny-patient-details v-if="showExpandedPatientInfo" :patient="patient" /> -->
       </div>
       <div class="foot columns is-variable is-1">
         <div class="column is-2">
@@ -175,6 +176,7 @@ export default {
     },
     expandPatientInformation(patient) {
       this.showExpandedPatientInfo = !this.showExpandedPatientInfo;
+      console.log(patient);
     },
     searchedPatients() {
       return this.patients.filter(patient => patient.name.toLowerCase().includes(this.search.toLowerCase()));

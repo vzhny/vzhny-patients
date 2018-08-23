@@ -1,57 +1,59 @@
 <template>
-  <div class="register container">
-    <div class="columns">
-      <div class="column is-offset-one-quarter is-half">
-        <div class="card">
-          <header class="card-header">
-            <p class="card-header-title is-centered">
-              Register
-            </p>
-          </header>
-          <div class="card-content">
-            <div class="content">
-              <form @submit.prevent="register">
-                <div class="field">
-                  <label class="label">Full Name</label>
-                  <div class="control has-icons-left">
-                    <input v-model="fullName" :class="{'is-danger': errors.fullNameInvalid}" class="input" type="text">
-                    <span class="icon is-small is-left">
-                      <i class="fas fa-address-card" />
-                    </span>
+  <section class="register">
+    <div class="container">
+      <div class="columns">
+        <div class="column is-offset-one-quarter is-half">
+          <div class="card">
+            <header class="card-header">
+              <p class="card-header-title is-centered">
+                Register
+              </p>
+            </header>
+            <div class="card-content">
+              <div class="content">
+                <form @submit.prevent="register">
+                  <div class="field">
+                    <label class="label">Full Name</label>
+                    <div class="control has-icons-left">
+                      <input v-model="fullName" :class="{'is-danger': errors.fullNameInvalid}" class="input" type="text">
+                      <span class="icon is-small is-left">
+                        <i class="fas fa-address-card" />
+                      </span>
+                    </div>
+                    <p v-if="errors.fullNameInvalid" class="help is-danger">Please enter your full name.</p>
                   </div>
-                  <p v-if="errors.fullNameInvalid" class="help is-danger">Please enter your full name.</p>
-                </div>
-                <div class="field">
-                  <label class="label">Username</label>
-                  <div class="control has-icons-left">
-                    <input v-model="username" :class="{'is-danger': errors.usernameInvalid}" class="input" type="text">
-                    <span class="icon is-small is-left">
-                      <i class="fas fa-user" />
-                    </span>
+                  <div class="field">
+                    <label class="label">Username</label>
+                    <div class="control has-icons-left">
+                      <input v-model="username" :class="{'is-danger': errors.usernameInvalid}" class="input" type="text">
+                      <span class="icon is-small is-left">
+                        <i class="fas fa-user" />
+                      </span>
+                    </div>
+                    <p v-if="errors.usernameInvalid" class="help is-danger">Please enter a username.</p>
                   </div>
-                  <p v-if="errors.usernameInvalid" class="help is-danger">Please enter a username.</p>
-                </div>
-                <div class="field">
-                  <label class="label">Password</label>
-                  <div class="control has-icons-left">
-                    <input v-model="password" :class="{'is-danger': errors.passwordInvalid}" class="input" type="password">
-                    <span class="icon is-small is-left">
-                      <i class="fas fa-lock" />
-                    </span>
+                  <div class="field">
+                    <label class="label">Password</label>
+                    <div class="control has-icons-left">
+                      <input v-model="password" :class="{'is-danger': errors.passwordInvalid}" class="input" type="password">
+                      <span class="icon is-small is-left">
+                        <i class="fas fa-lock" />
+                      </span>
+                    </div>
+                    <p v-if="errors.passwordInvalid" class="help is-danger">Please enter a password longer than 6 characters.</p>
                   </div>
-                  <p v-if="errors.passwordInvalid" class="help is-danger">Please enter a password longer than 6 characters.</p>
-                </div>
-              </form>
+                </form>
+              </div>
+              <p v-if="errorRegistering" id="error-text" class="help is-danger has-text-centered">{{ errorRegistering }}</p>
             </div>
-            <p v-if="errorRegistering" id="error-text" class="help is-danger has-text-centered">{{ errorRegistering }}</p>
+            <footer class="card-footer">
+              <a class="card-footer-item" @click="register">Submit</a>
+            </footer>
           </div>
-          <footer class="card-footer">
-            <a class="card-footer-item" @click="register">Submit</a>
-          </footer>
         </div>
       </div>
     </div>
-  </div>
+  </section>
 </template>
 
 <script>
@@ -140,6 +142,13 @@ export default {
 </script>
 
 <style lang="scss">
+@import '../styles/settings.scss';
+@import '../styles/mixins.scss';
+
+.register {
+  @include background-styles;
+}
+
 .card-header-title {
   font-size: 2rem;
 }

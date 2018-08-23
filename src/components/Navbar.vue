@@ -1,21 +1,20 @@
 <template>
   <nav class="navbar">
     <div class="navbar-brand">
-      <!-- May redirect to /dashboard again, depends on how link-active is reacting to responsiveness -->
       <div class="navbar-item">
-        <img src="../assets/images/vzhny-logo.png" alt="vzhny patients" width="112" height="28">
+        <h1>vzhny patients</h1>
       </div>
-      <a class="navbar-burger burger">
+      <a :class="{ 'is-active': hamburgerClicked }" class="navbar-burger burger" data-target="nav-menu" @click="expandMobileNavMenu">
         <span/>
         <span/>
         <span/>
       </a>
     </div>
 
-    <div class="navbar-menu">
+    <div id="nav-menu" :class="{ 'is-active': hamburgerClicked }" class="navbar-menu">
       <div v-if="currentlyLoggedIn" class="navbar-start">
         <div class="navbar-item">
-          <a class="button is-text" @click="emitAddNewPatient">
+          <a class="navbar-link-button" @click="emitAddNewPatient">
             <span class="icon">
               <i class="fas fa-user-plus" />
             </span>
@@ -25,7 +24,7 @@
       </div>
       <div class="navbar-end">
         <div class="navbar-item">
-          <router-link v-if="!currentlyLoggedIn" to="/register" class="button is-text">
+          <router-link v-if="!currentlyLoggedIn" to="/register" class="navbar-link-button">
             <span class="icon">
               <i class="fas fa-plus-square" />
             </span>
@@ -33,7 +32,7 @@
           </router-link>
         </div>
         <div class="navbar-item">
-          <router-link v-if="!currentlyLoggedIn" to="/login" class="button is-text">
+          <router-link v-if="!currentlyLoggedIn" to="/login" class="navbar-link-button">
             <span class="icon">
               <i class="fas fa-sign-in-alt" />
             </span>
@@ -41,7 +40,7 @@
           </router-link>
         </div>
         <div class="navbar-item">
-          <a v-if="currentlyLoggedIn" class="button is-text" @click="logout">
+          <a v-if="currentlyLoggedIn" class="navbar-link-button" @click="logout">
             <span class="icon">
               <i class="fas fa-sign-out-alt" />
             </span>
@@ -61,6 +60,7 @@ export default {
   data() {
     return {
       currentlyLoggedIn: false,
+      hamburgerClicked: false,
     };
   },
   created() {
@@ -73,6 +73,10 @@ export default {
   methods: {
     emitAddNewPatient() {
       EventBus.$emit('show-add-patient-card');
+    },
+    expandMobileNavMenu() {
+      this.hamburgerClicked = !this.hamburgerClicked;
+      return this.hamburgerClicked;
     },
     logout() {
       const url = 'https://vzhny-patients-api.herokuapp.com/api/auth/logout';
@@ -95,23 +99,49 @@ export default {
 @import '../styles/settings.scss';
 
 .navbar {
-  background-color: $purple;
+  background-color: $blue;
   box-shadow: 0 5px 5px rgba(0, 0, 0, 0.3);
+  margin-bottom: 2rem;
 
-  .button.is-text {
-    color: $off-white;
-    text-decoration: none;
-    transition: all 250ms ease-in-out;
+  .navbar-brand {
+    .navbar-burger.burger {
+      color: $off-white;
+    }
 
-    &.is-active,
-    &:hover {
-      color: invert($off-white);
-      transition: all 250ms ease-in-out;
+    .navbar-item > h1 {
+      cursor: default;
+      color: $off-white;
+      font-size: 1.4rem;
     }
   }
-}
 
-.navbar-burger.burger {
-  color: $off-white;
+  #nav-menu {
+    background-color: $blue;
+  }
+
+  .navbar-link-button,
+  .navbar-link-button:visited {
+    padding: 8px;
+    color: $off-white;
+
+    &:hover {
+      color: #fff;
+      border: solid 1px #fff;
+      border-radius: 4px;
+      margin: -1px;
+    }
+  }
+
+  // .button.is-text {
+  //   color: $off-white;
+  //   text-decoration: none;
+  //   transition: all 250ms ease-in-out;
+
+  //   &.is-active,
+  //   &:hover {
+  //     color: invert($off-white);
+  //     transition: all 250ms ease-in-out;
+  //   }
+  // }
 }
 </style>

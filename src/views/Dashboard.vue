@@ -1,14 +1,14 @@
 <template>
   <section class="dashboard">
     <div class="container is-fluid">
-      <div class="columns">
+      <div v-if="showAddPatientCard" class="columns">
         <div class="column">
-          <vzhny-add-patient-card v-if="showAddPatientCard" />
+          <vzhny-add-patient-card />
         </div>
       </div>
-      <div class="columns">
+      <div v-if="showEditPatientCard" class="columns">
         <div class="column">
-          <vzhny-edit-patient-card v-if="showEditPatientCard" :id="patientId" />
+          <vzhny-edit-patient-card :id="patientId" />
         </div>
       </div>
       <div class="columns">
@@ -66,7 +66,4 @@ export default {
 <style lang="scss">
 @import '../styles/settings.scss';
 @import '../styles/mixins.scss';
-
-.dashboard {
-}
 </style>

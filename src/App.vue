@@ -22,12 +22,18 @@ export default {
 
 <style lang="scss">
 @import url('https://fonts.googleapis.com/css?family=Barlow+Semi+Condensed');
+@import './styles/settings.scss';
 
 *,
 *::before,
 *::after {
   box-sizing: border-box;
   margin: 0;
+}
+
+body,
+html {
+  height: 100%;
 }
 
 #app {

@@ -18,90 +18,31 @@
       </p>
     </header>
     <div class="card-content">
-      <div class="head columns is-variable is-1">
-        <div class="column is-2">
-          <p class="patient-name">Name</p>
-        </div>
-        <div class="column">
-          <p class="patient-reason">Reason(s)</p>
-        </div>
-        <div class="column">
-          <p class="patient-diagnosis">Diagnosis</p>
-        </div>
-        <div class="column">
-          <p class="patient-notes">Notes</p>
-        </div>
-        <div class="column is-1">
-          <p class="patient-last-visit">Last Visit</p>
-        </div>
-        <div class="column is-1">
-          <p class="patient-actions">Actions</p>
-        </div>
+      <vzhny-patient-list-header />
+      <div v-for="(patient, index) in paginatedData" :key="index" class="patients-list-item">
+        <vzhny-patient-details :patient="patient" />
+        <vzhny-patient-expanded-details :patient="patient" />
       </div>
-      <div v-for="(patient, index) in paginatedData" :key="index" class="data columns is-variable is-1">
-        <div class="column is-2">
-          <p class="patient-name">{{ patient.name }}</p>
-        </div>
-        <div class="column">
-          <p class="patient-reason">{{ patient.reason }}</p>
-        </div>
-        <div class="column">
-          <p class="patient-diagnosis">{{ patient.diagnosis }}</p>
-        </div>
-        <div class="column">
-          <p class="patient-notes">{{ patient.notes }}</p>
-        </div>
-        <div class="column is-1">
-          <p class="patient-last-visit">{{ patient.lastVisit }}</p>
-        </div>
-        <div class="column is-1">
-          <p class="patient-actions">
-            <a class="crud-action-more-info" @click="expandPatientInformation(patient)">
-              <i class="fas fa-arrow-circle-down" />
-            </a>
-            <a class="crud-action-edit" @click="editPatient(patient._id)">
-              <i class="fas fa-pen" />
-            </a>
-            <a class="crud-action-delete" @click="deletePatient(patient._id)">
-              <i class="fas fa-times" />
-            </a>
-          </p>
-        </div>
-        <!-- <vzhny-patient-details v-if="showExpandedPatientInfo" :patient="patient" /> -->
-      </div>
-      <div class="foot columns is-variable is-1">
-        <div class="column is-2">
-          <p class="patient-name">Name</p>
-        </div>
-        <div class="column">
-          <p class="patient-reason">Reason(s)</p>
-        </div>
-        <div class="column">
-          <p class="patient-diagnosis">Diagnosis</p>
-        </div>
-        <div class="column">
-          <p class="patient-notes">Notes</p>
-        </div>
-        <div class="column is-1">
-          <p class="patient-last-visit">Last Visit</p>
-        </div>
-        <div class="column is-1">
-          <p class="patient-actions">Actions</p>
-        </div>
-      </div>
+      <vzhny-patient-list-footer />
     </div>
     <p v-if="feedback">{{ feedback }}</p>
   </div>
 </template>
 
 <script>
+import PatientListHeaderFooter from '@/components/PatientListHeaderFooter';
 import PatientDetails from '@/components/PatientDetails';
+import PatientExpandedDetails from '@/components/PatientExpandedDetails';
+
 import EventBus from '../eventbus.js';
 
 export default {
   name: 'PatientList',
   components: {
+    'vzhny-patient-list-header': PatientListHeaderFooter,
+    'vzhny-patient-list-footer': PatientListHeaderFooter,
     'vzhny-patient-details': PatientDetails,
+    'vzhny-patient-expanded-details': PatientExpandedDetails,
   },
   data() {
     return {
@@ -154,30 +95,6 @@ export default {
         this.feedback = 'Not currently logged in. Please log in to display your patients.';
       }
     },
-    editPatient(id) {
-      EventBus.$emit('show-edit-patient-card', id);
-    },
-    deletePatient(id) {
-      const url = `https://vzhny-patients-api.herokuapp.com/api/patients/${id}`;
-      const userLoggedIn = this.$store.getters.checkIfLoggedIn;
-
-      if (userLoggedIn) {
-        this.$http
-          .delete(url)
-          .then(response => {
-            EventBus.$emit('update-patient-list');
-          })
-          .catch(error => {
-            this.feedback = 'Error deleting the patient from the server. Please try again.';
-          });
-      } else {
-        this.feedback = 'Not currently logged in. Please log in to display your patients.';
-      }
-    },
-    expandPatientInformation(patient) {
-      this.showExpandedPatientInfo = !this.showExpandedPatientInfo;
-      console.log(patient);
-    },
     searchedPatients() {
       return this.patients.filter(patient => patient.name.toLowerCase().includes(this.search.toLowerCase()));
     },
@@ -222,18 +139,20 @@ export default {
   }
 }
 
-.head.columns {
-  font-weight: bold;
-  border-bottom: 2px solid $off-white;
-}
+.card-content {
+  .head.columns {
+    font-weight: bold;
+    border-bottom: 2px solid $off-white;
+  }
 
-.foot.columns {
-  font-weight: bold;
-  border-top: 2px solid $off-white;
-}
+  .data.columns {
+    margin-bottom: 8px;
+  }
 
-.data.columns {
-  margin-bottom: 8px;
+  .foot.columns {
+    font-weight: bold;
+    border-top: 2px solid $off-white;
+  }
 }
 
 .patient {
@@ -246,7 +165,7 @@ export default {
   }
 }
 
-.card-content > .data.columns {
+.card-content > .patients-list-item {
   &:nth-child(odd) {
     background-color: #fafafa;
   }
@@ -288,9 +207,14 @@ export default {
 
   .patient {
     &-name,
+    &-address,
+    &-email,
+    &-phone-number,
     &-reason,
     &-diagnosis,
     &-notes,
+    &-last-visit,
+    &-number-of-sessions,
     &-actions {
       text-align: center;
     }

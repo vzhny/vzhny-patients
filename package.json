@@ -1,6 +1,13 @@
 {
   "name": "vzhny-patient-records",
   "version": "0.1.0",
+  "description": "A Vue-powered web app, providing a secure place to keep and update general patient information.",
+  "author": "Diego Vizhnay <diego@vzhny.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://gitlab.com/vzhny/vzhny-patients/issues"
+  },
+  "homepage": "https://gitlab.com/vzhny/vzhny-patients#README",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",

@@ -13,7 +13,7 @@
       </header>
       <div class="card-content">
         <div class="content">
-          <form @keyup.enter="addNewPatient">
+          <form>
             <div class="container">
               <div class="columns">
                 <div class="column is-half">

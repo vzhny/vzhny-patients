@@ -2,7 +2,7 @@
   <section class="landing">
     <div class="container">
       <div class="columns">
-        <div class="column">
+        <div class="leading column">
           <h1 class="title">
             Welcome to vzhny patients!
           </h1>
@@ -17,29 +17,46 @@
           <p class="has-text-centered">{{ feature.body }}.</p>
         </div>
       </div>
+      <div class="columns">
+        <div class="column">
+          <p class="feedback">{{ feedback }}</p>
+        </div>
+      </div>
     </div>
   </section>
 </template>
 
 <script>
 export default {
+  name: 'Landing',
   data() {
     return {
       features: [
         {
           title: 'Full patient data manipulation',
-          body: 'Create, retrieve, update, and delete patient information',
+          body: 'Record and edit patient information',
         },
         {
           title: 'Authentication and authorization',
-          body: 'Your saved data is safe and secure',
+          body: 'Save and secure essential data',
         },
         {
-          title: 'Simple and straightforward design',
-          body: 'Quickly and efficiently manage all your patients',
+          title: 'Simple and elegant design',
+          body: 'Efficiently manage patient information',
         },
       ],
+      feedback: 'Please allow a few moments for the server to start up!',
     };
+  },
+  mounted() {
+    const url = 'https://vzhny-patients-api.herokuapp.com/';
+
+    this.$http
+      .get(url)
+      .then((this.feedback = 'The server currently running, please feel free to register or log in!'))
+      .catch(error => {
+        this.feedback = 'The server is currently experiencing some issues. Please try again later.';
+      });
   },
 };
 </script>
@@ -50,6 +67,7 @@ export default {
 
 .landing {
   @include background-styles;
+  text-align: default;
 
   .title {
     color: $off-white;
@@ -65,10 +83,22 @@ export default {
   }
 }
 
+.feedback {
+  text-align: center;
+  font-size: 2rem;
+  color: lighten($green, 10);
+}
+
 h1,
 h2,
 p {
   text-shadow: 0px 2px 3px rgba(0, 0, 0, 0.75);
+}
+
+@media screen and (max-width: 768px) {
+  .landing {
+    text-align: center;
+  }
 }
 </style>
 

@@ -12,7 +12,13 @@ export default {
   },
   methods: {
     checkPatientFormValidation() {
-      if (!this.errors.nameInvalid && !this.errors.addressInvalid && !this.errors.phoneNumberInvalid && !this.errors.lastVisitInvalid && !this.errors.numberOfSessionsInvalid) {
+      if (
+        !this.errors.nameInvalid
+        && !this.errors.addressInvalid
+        && !this.errors.phoneNumberInvalid
+        && !this.errors.lastVisitInvalid
+        && !this.errors.numberOfSessionsInvalid
+      ) {
         return true;
       }
       return false;

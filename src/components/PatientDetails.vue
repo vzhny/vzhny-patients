@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import EventBus from '../eventbus.js';
+import EventBus from '../eventbus';
 
 export default {
   name: 'PatientDetails',

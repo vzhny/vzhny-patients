@@ -34,7 +34,7 @@ import PatientListHeaderFooter from '@/components/PatientListHeaderFooter';
 import PatientDetails from '@/components/PatientDetails';
 import PatientExpandedDetails from '@/components/PatientExpandedDetails';
 
-import EventBus from '../eventbus.js';
+import EventBus from '../eventbus';
 
 export default {
   name: 'PatientList',

@@ -5,9 +5,9 @@
         <h1>vzhny patients</h1>
       </div>
       <a :class="{ 'is-active': hamburgerClicked }" class="navbar-burger burger" data-target="nav-menu" @click="expandMobileNavMenu">
-        <span/>
-        <span/>
-        <span/>
+        <span />
+        <span />
+        <span />
       </a>
     </div>
 
@@ -53,7 +53,7 @@
 </template>
 
 <script>
-import EventBus from '../eventbus.js';
+import EventBus from '../eventbus';
 
 export default {
   name: 'Navbar',

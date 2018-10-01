@@ -121,8 +121,8 @@
 
 <script>
 import moment from 'moment';
-import EventBus from '../eventbus.js';
-import formValidationMixin from '../mixins/patientFormValidationMixin.js';
+import EventBus from '../eventbus';
+import formValidationMixin from '../mixins/patientFormValidationMixin';
 
 export default {
   name: 'AddPatientCard',

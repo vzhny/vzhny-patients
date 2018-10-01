@@ -25,7 +25,7 @@
 import PatientList from '@/components/PatientList';
 import AddPatientCard from '@/components/AddPatientCard';
 import EditPatientCard from '@/components/EditPatientCard';
-import EventBus from '../eventbus.js';
+import EventBus from '../eventbus';
 
 export default {
   name: 'Dashboard',
